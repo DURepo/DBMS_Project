@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mysql = require('mysql');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -23,12 +24,12 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -36,6 +37,24 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+var con = mysql.createConnection({
+  host: "classmysql.engr.oregonstate.edu",
+  user: "cs540_ummaredd",
+  password: "neha123",
+  database: "cs540_ummaredd"
+});
+
+var coords = con.connect(function (err) {
+  if (err) throw err;
+  con.query("SELECT latitude, longitude FROM cs540_ninHealthFacilities", function (err, result, fields) {
+    if (err) throw err;
+    console.log(fields)
+    console.log(result);
+
+    return result;
+  });
 });
 
 module.exports = app;
