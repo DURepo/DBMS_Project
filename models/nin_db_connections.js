@@ -9,8 +9,7 @@ var con = mysql.createPool({
   
   function getcoords(callback) {
     con.query("SELECT latitude, longitude FROM cs540_ninHealthFacilities", (err, result) => {
-      if (err) throw err;
-      console.log(result);
+      if (err) throw err;     
       callback(err,result);
     });
   };
@@ -25,10 +24,19 @@ var con = mysql.createPool({
   };
   
 
+ function getHospitalCountbyStates(callback){
+  con.query("SELECT State_Name as name , count(*) as count from cs540_ninHealthFacilities Group by State_Name", (err, result) => {
+    if(err) throw err;
+    res1 = JSON.stringify(result);
+    res2 = JSON.parse(res1);   
+    callback(err,res2);
+  });
+ }
 
 
   module.exports = {
     getCoords : getcoords,
-    getStates: getstates
+    getStates: getstates,
+    getHospitalCountbyStates : getHospitalCountbyStates
 
   };
