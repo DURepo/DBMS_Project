@@ -15,7 +15,20 @@ var con = mysql.createPool({
     });
   };
 
+  function getstates(callback){
+    con.query("SELECT Name FROM cs540_States", (err, result) => {
+      if (err) throw err;
+      res1 = JSON.stringify(result);
+      res2 = JSON.parse(res1)         
+      callback(err,res2);
+    });
+  };
+  
+
+
+
   module.exports = {
     getCoords : getcoords,
+    getStates: getstates
 
   };

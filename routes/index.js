@@ -21,11 +21,13 @@ router.get('/', function(req, res, next) {
       { latitude: 11.0231, longitude: 77.4235 },
       { latitude: 11.5193, longitude: 76.4816 }];
       res.render('index', { title: 'Express', coords:result});*/
-    nin_db.getCoords((err,result) => {
-    console.log(result);
-    res.render('index', { title: 'Express', coords:result});
+    
+     
+    nin_db.getCoords((err,result) => {    
+    res.render('index', { title: 'Express', coords:result});    
   });
-  
+
+    
 });
 
 module.exports = router;
