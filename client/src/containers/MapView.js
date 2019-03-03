@@ -12,7 +12,7 @@ class MapView extends Component {
       // Important! Always set the container height explicitly
       <div style={{ height: '70vh', width: '100%' }}>
         <GoogleMapReact
-          bootstrapURLKeys={{ key: 'AIzaSyBWCVpQlrqCz6JHiHnYPJNgy9O1k0eR9o8' }}
+          bootstrapURLKeys={{ key: 'API KEY AVAILABLE IN WHATSAPP CHAT' }}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
