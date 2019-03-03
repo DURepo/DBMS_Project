@@ -24,9 +24,13 @@ router.get('/', function(req, res, next) {
         
     nin_db.getCoords((err,result) => {    
     res.render('index', { title: 'Express', coords:result});    
-  });
+  });   
+});
 
-    
+router.get('/bystate',function(req,res){
+  nin_db.getHospitalCountbyStates((err,result)=>{
+    res.send(result);
+  })
 });
 
 module.exports = router;
