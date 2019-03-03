@@ -33,10 +33,33 @@ var con = mysql.createPool({
   });
  }
 
+ function getDistrictsofState(callback){
+   var stateName = "Goa"
+   var sql = "SELECT DistrictNo,Name FROM cs540_District where StateID = (SELECT StateID FROM cs540_State WHERE Name = ?)";
+   con.query(sql, [stateName], function(err, result){
+     if(err) throw err;
+     console.log(result);
+     callback(err, result)
+   });
+ }
+
+ function getPopulationbyDistrict(callback){
+   var DistrictNo = 123
+   var sql = "SELECT Population from cs540_statePopulationinDetail WHERE DistrictNo = ?";
+   con.query(sql, [DistrictNo], function(err, result){
+     if(err) throw err;
+     console.log(result);
+     callback(err, result);
+   });
+ }
+ 
+
 
   module.exports = {
     getCoords : getcoords,
     getStates: getstates,
-    getHospitalCountbyStates : getHospitalCountbyStates
+    getHospitalCountbyStates : getHospitalCountbyStates,
+    getDistrictsofState : getDistrictsofState,
+    getPopulationbyDistrict : getPopulationbyDistrict
 
   };

@@ -255,12 +255,7 @@ def insertJSONtoDB_StatePopulationinDetail(JsonUnformattedsrc, cols):
     conn.close()
     print("Data inserted: insertJSONtoDB_StatePopulationinDetail")
 
-def main():
-    print("executing")
-    #processNinHealthFacilties()
-    #processHopsitalwithDiciplineTable()
-    #processPopulationDensityData()
-
+def processStatePopulationinDetail():
     #StatePopulationinDetail
     src = "./RawDatasets/StatePopulationinDetail.csv"
     dst = "./RawDatasets/TempJson/jsonfile_StatePopulationinDetail.json"
@@ -269,9 +264,51 @@ def main():
         "StateNo","DistrictNo","subdistNo","TownVillageNo","Ward","EB","Level","Name","TotalRuralUrban","No_HH","Population","MalePopulation","FemalePopulation")
     #csvtoJson(src, dst, headerrow)
     #formatJSON(dst, dstf)
-
     createTable_StatePopulationinDetail()
     insertJSONtoDB_StatePopulationinDetail(dstf, headerrow)
+
+def insertJSONtoDB_Districts():
+    print("inserting Data...")
+    conn = mysql.connector.connect(host='classmysql.engr.oregonstate.edu',
+                                   database='cs540_ummaredd',
+                                   user='cs540_ummaredd',
+                                   password='neha123')
+    c = conn.cursor()
+    with open(JsonUnformattedsrc, 'r') as fp:
+        projectlist = json.load(fp)
+
+    for p in projectlist:
+        print(p[cols[0]])
+        query = "INSERT INTO cs540_District(DistrictNo, Name, StateID)" \
+                "VALUES (%s, %s, (SELECT StateID from cs540_States where Name = %s))"
+        args = (
+            p[cols[0]], p[cols[1]], p[cols[2]]]) #CHECK THESE-------------------
+
+        c.execute(query, args)
+    conn.commit()
+    conn.close()
+    print("Data inserted: insertJSONtoDB_Districts")    
+
+
+
+def main():
+    print("executing")
+    #processNinHealthFacilties()
+    #processHopsitalwithDiciplineTable()
+    #processPopulationDensityData()
+    #processStatePopulationinDetail()
+
+    #Insert Districts
+    src = ""
+    dst=""
+    dstf = ""
+    headerrow = ("StateName", "DistrictNo","Name")
+    csvtoJson(src, dst, headerrow)
+    formatJSON(dst, dstf)
+    insertJSONtoDB_Districts(dstf, headerrow)
+
+
+    
 
 
 
