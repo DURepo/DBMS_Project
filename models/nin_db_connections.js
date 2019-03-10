@@ -53,13 +53,20 @@ var con = mysql.createPool({
    });
  }
  
-
+ function getStateWiseHospitalCount(callback){
+   var sql = "SELECT Name as 'State Name', Population, COUNT(HealthFacilityName) as 'Number of Hospitals' FROM `cs540_populationDensityData` as StateWisePopulation, `cs540_ninHealthFacilities` as HealthFacilities where StateWisePopulation.Name = HealthFacilities.State_Name group by StateWisePopulation.Name"
+   con.query(sql, function(err, result){
+     if(err) throw err;
+     console.log(result);
+     callback(err, JSON.stringify(result));
+   });
+ }
 
   module.exports = {
     getCoords : getcoords,
     getStates: getstates,
     getHospitalCountbyStates : getHospitalCountbyStates,
     getDistrictsofState : getDistrictsofState,
-    getPopulationbyDistrict : getPopulationbyDistrict
-
+    getPopulationbyDistrict : getPopulationbyDistrict,
+    getStateWiseHospitalCount : getStateWiseHospitalCount
   };
