@@ -7,8 +7,10 @@ import Propose from './containers/Propose';
 import Statstics from './containers/Statstics';
 //import Select from './containers/Select';
 import View from './containers/View';
+import FilterByState from './containers/FilterByState'
 import NavBar from './containers/Navbar';
 //import Iconbar from './containers/Iconbar';
+
 
 
 //const Login = React.lazy(() => import('./containers/Login'));
@@ -16,13 +18,18 @@ import NavBar from './containers/Navbar';
 class App extends Component {
   constructor(props) {
     super(props);
+
+        
   }
+
+  
 
   RouteComponent = () =>
       <Switch>
         <Route path="/propose" component={Propose} />
         <Route path="/stats" component={Statstics} />
         <Route path="/view" component={View} />
+        <Route path="/FilterByState" component={FilterByState} />
       </Switch>
 
   render() {

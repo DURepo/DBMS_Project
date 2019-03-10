@@ -267,7 +267,7 @@ def processStatePopulationinDetail():
     createTable_StatePopulationinDetail()
     insertJSONtoDB_StatePopulationinDetail(dstf, headerrow)
 
-def insertJSONtoDB_Districts():
+def insertJSONtoDB_Districts(JsonUnformattedsrc, cols):
     print("inserting Data...")
     conn = mysql.connector.connect(host='classmysql.engr.oregonstate.edu',
                                    database='cs540_ummaredd',
@@ -279,15 +279,15 @@ def insertJSONtoDB_Districts():
 
     for p in projectlist:
         print(p[cols[0]])
-        query = "INSERT INTO cs540_District(DistrictNo, Name, StateID)" \
-                "VALUES (%s, %s, (SELECT StateID from cs540_States where Name = %s))"
+        query = "INSERT INTO cs540_SDV(StateCode, DistrictCode,SubDistrictCode,TownVillgCode,Name)" \
+                "VALUES (%s, %s, %s, %s, %s)"
         args = (
-            p[cols[0]], p[cols[1]], p[cols[2]]]) #CHECK THESE-------------------
+            p[cols[0]], p[cols[1]], p[cols[2]], p[cols[3]], p[cols[4]])
 
         c.execute(query, args)
     conn.commit()
     conn.close()
-    print("Data inserted: insertJSONtoDB_Districts")    
+    print("Data inserted: insertJSONtoDB_SDV")    
 
 
 
@@ -299,10 +299,10 @@ def main():
     #processStatePopulationinDetail()
 
     #Insert Districts
-    src = ""
-    dst=""
-    dstf = ""
-    headerrow = ("StateName", "DistrictNo","Name")
+    src = "./RawDatasets/tdvddir.csv"
+    dst="./RawDatasets/TempJson/tdvdir.json"
+    dstf = "./RawDatasets/TempJson/jsonfile_tdvdir.json"
+    headerrow = ("StateCode", "DistrictCode","SubDistrictCode","TownVillgCode","Name")
     csvtoJson(src, dst, headerrow)
     formatJSON(dst, dstf)
     insertJSONtoDB_Districts(dstf, headerrow)
