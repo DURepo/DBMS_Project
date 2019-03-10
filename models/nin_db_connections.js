@@ -62,11 +62,21 @@ var con = mysql.createPool({
    });
  }
 
+ function getDistrictWiseHospitalCount(callback, stateName){
+   var sql = "SELECT count(*), District_Name, State_Name FROM `cs540_ninHealthFacilities` where District_Name in (SELECT Name FROM `cs540_SDV` where DistrictCode!=0 and SubDistrictCode=0 and TownVillgCode=0) and State_Name=? group by District_Name";
+   con.query(sql, [stateName], function(err, result){
+     if(err) throw err;
+     console.log(result);
+     callback(err, JSON.stringify(result));
+   })
+ }
+
   module.exports = {
     getCoords : getcoords,
     getStates: getstates,
     getHospitalCountbyStates : getHospitalCountbyStates,
     getDistrictsofState : getDistrictsofState,
     getPopulationbyDistrict : getPopulationbyDistrict,
-    getStateWiseHospitalCount : getStateWiseHospitalCount
+    getStateWiseHospitalCount : getStateWiseHospitalCount, 
+    getDistrictWiseHospitalCount : getDistrictWiseHospitalCount
   };
