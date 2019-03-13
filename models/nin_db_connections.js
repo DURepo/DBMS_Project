@@ -15,7 +15,7 @@ var con = mysql.createPool({
   };
 
   function getstates(callback){
-    con.query("SELECT Name FROM cs540_States", (err, result) => {
+    con.query("SELECT Name FROM `cs540_SDV` where DistrictCode=0 and SubDistrictCode=0 and TownVillgCode=0", (err, result) => {
       if (err) throw err;
       res1 = JSON.stringify(result);
       res2 = JSON.parse(res1)         
@@ -33,15 +33,15 @@ var con = mysql.createPool({
   });
  }
 
- function getDistrictsofState(callback){
-   var stateName = "Goa"
-   var sql = "SELECT DistrictNo,Name FROM cs540_District where StateID = (SELECT StateID FROM cs540_State WHERE Name = ?)";
-   con.query(sql, [stateName], function(err, result){
-     if(err) throw err;
-     console.log(result);
-     callback(err, result)
-   });
- }
+//  function getDistrictsofState(callback){
+//    var stateName = "Goa"
+//    var sql = "SELECT DistrictNo,Name FROM cs540_District where StateID = (SELECT StateID FROM cs540_State WHERE Name = ?)";
+//    con.query(sql, [stateName], function(err, result){
+//      if(err) throw err;
+//      console.log(result);
+//      callback(err, result)
+//    });
+//  }
 
  function getPopulationbyDistrict(callback){
    var DistrictNo = 123
@@ -75,7 +75,7 @@ var con = mysql.createPool({
     getCoords : getcoords,
     getStates: getstates,
     getHospitalCountbyStates : getHospitalCountbyStates,
-    getDistrictsofState : getDistrictsofState,
+    // getDistrictsofState : getDistrictsofState,
     getPopulationbyDistrict : getPopulationbyDistrict,
     getStateWiseHospitalCount : getStateWiseHospitalCount, 
     getDistrictWiseHospitalCount : getDistrictWiseHospitalCount
