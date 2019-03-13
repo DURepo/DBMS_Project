@@ -33,4 +33,9 @@ router.get('/bystate',function(req,res){
   })
 });
 
+router.get('/hospitalbystate',function(req,res){
+  nin_db.getStateWiseHospitalCount((err,result)=>{
+    res.send(result);
+  })
+})
 module.exports = router;
