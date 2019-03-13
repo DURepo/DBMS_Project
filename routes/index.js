@@ -38,4 +38,17 @@ router.get('/hospitalbystate',function(req,res){
     res.send(result);
   })
 })
+
+router.get('/hospitalbydistrict', function(req,res){
+  let statename = req.query.statename;
+  console.log(statename);
+  nin_db.getDistrictWiseHospitalCount((err,result)=>{
+    result = JSON.parse(result);
+    if (err) throw err;
+    result.forEach(element => {
+      console.log(element["District_Name"]);
+    });
+    res.send(result);
+  },statename);
+})
 module.exports = router;
