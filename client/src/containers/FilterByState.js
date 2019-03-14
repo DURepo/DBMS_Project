@@ -5,7 +5,9 @@ import axios from 'axios';
 
 class FilterByState extends React.Component {
     state={states:[],
-            selectedValCount: []
+            selectedValCount: [],
+            statesData:[],
+            eachStateFacility:[]
             }
 
     componentDidMount(){
@@ -21,6 +23,20 @@ class FilterByState extends React.Component {
             this.setState({states:res.data});
             console.log(this.state.states);
         })
+
+        axios.get('http://127.0.0.1:3001/Facilitiesbystate',{
+            headers:{
+            'Access-Control-Allow-Origin':'*'
+            },
+            proxy: {
+                host: 'localhost',
+                port: 3001
+              }
+        }).then((res,err)=>{
+            this.setState({statesData:res.data});
+            console.log(this.state.statesData);
+        })
+        
         
     }
 
@@ -37,19 +53,34 @@ class FilterByState extends React.Component {
             if(s!== undefined && s.length===1)
               { console.log(s[0].count)
                  this.selectedValCount = s[0].count}
+
+                this.state.eachStateFacility= this.state.statesData.filter(s => s.State_Name===event.target.value)      
+
             }
 
 
     render() {  
         //const states=[{name:'AP', count=100}, {name:"UP", count=90}]
         return (        
-        <div>            
+        <div style={{marginTop:'20px',marginLeft:'20px'}}>            
             <select onChange={this.DropdownChanged} value={this.state.value} >
                 <option value="select">Select</option>
              {this.state.states.map((x,y) => <option key={y}> {x.name} </option>)}
              </select>
+            
+            <div style={{marginTop:'20px',marginLeft:'20px'}}>
+             <h6><strong>{'Total Hospitals: '}</strong></h6>{this.selectedValCount}
+             
+            </div>
 
-             <p>{this.selectedValCount}</p>         
+                        
+             <div style={{marginTop:'20px',marginLeft:'20px'}}>
+             <h6><strong>{'Facility Details: '}</strong></h6>
+             {this.state.eachStateFacility.map(function(e,index){
+                 return <h6 key={index}>{e.FacilityType}:  {e.count}</h6>
+             })}
+             </div>
+             
 
         </div>           
         )  

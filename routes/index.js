@@ -51,4 +51,11 @@ router.get('/hospitalbydistrict', function(req,res){
     res.send(result);
   },statename);
 })
+
+router.get('/Facilitiesbystate',function(req,res){
+  nin_db.getStateWiseFacilityTypeCount((err,result)=>{
+    res.send(result);
+  })
+})
+
 module.exports = router;
