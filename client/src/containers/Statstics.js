@@ -164,7 +164,7 @@ class Statistics extends React.Component {
         return (
             <div style={{marginTop:'20px',marginLeft:'20px'}}> 
                 <h1>Statistics</h1>
-                <div style={{height: '50%', width: '25%',marginTop:'20px'}}>
+                <div style={{height: '50%', width: '30%',marginTop:'20px'}}>
                 <h3>No of Hospitals by State</h3>
                 <Table striped bordered hover style={{display: 'block', height: '300px', overflowY:'auto'}}>
                     <thead>
@@ -179,7 +179,10 @@ class Statistics extends React.Component {
                     </tbody>
                     </Table>
                 </div>
+                <div style={{height: '50%', width: '100%',marginTop:'20px'}}>
+                <h3>Population And Health Facilities by State</h3>
                 <svg></svg>
+                </div>
             </div>
         
         )
