@@ -71,7 +71,16 @@ var con = mysql.createPool({
      if(err) throw err;
      console.log(result);
      callback(err, JSON.stringify(result));
-   })
+   });
+ }
+
+ function getStateWiseFacilityTypeCount(callback){
+   var sql = "SELECT State_Name, FacilityType, count(FacilityType) FROM `cs540_ninHealthFacilities` where State_Name in (select DISTINCT(State_Name) from cs540_ninHealthFacilities) group by State_Name, FacilityType";
+   con.query(sql, function(err, result){
+     if(err) throw err;
+     console.log(result);
+     callback(err, JSON.stringify(result));
+   });
  }
 
   module.exports = {
@@ -81,5 +90,6 @@ var con = mysql.createPool({
     // getDistrictsofState : getDistrictsofState,
     getPopulationbyDistrict : getPopulationbyDistrict,
     getStateWiseHospitalCount : getStateWiseHospitalCount, 
-    getDistrictWiseHospitalCount : getDistrictWiseHospitalCount
+    getDistrictWiseHospitalCount : getDistrictWiseHospitalCount,
+    getStateWiseFacilityTypeCount : getStateWiseFacilityTypeCount
   };
