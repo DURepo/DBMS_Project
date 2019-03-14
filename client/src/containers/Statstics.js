@@ -51,8 +51,8 @@ class Statistics extends React.Component {
         });
         //data = JSON.parse(data);
         //console.log(data);
-        var margin = {top: 20, right: 20, bottom: 30, left: 40},
-            width = 1200 - margin.left - margin.right,
+        var margin = {top: 20, right: 100, bottom: 100, left: 40},
+            width = 1300 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom;
 
         // set the ranges
@@ -71,7 +71,7 @@ class Statistics extends React.Component {
         // append the svg object to the body of the page
         // append a 'group' element to 'svg'
         // moves the 'group' element to the top left margin
-        var svg = d3.select("body").append("svg")
+        var svg = d3.select("body").select("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -91,6 +91,12 @@ class Statistics extends React.Component {
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(x);
+        svg.append("text")             
+            .attr("transform",
+                  "translate(" + (width/2) + " ," + 
+                                 (height + margin.top + 10) + ")")
+            .style("text-anchor", "middle")
+            .text("States");
         
         
 
@@ -119,13 +125,28 @@ class Statistics extends React.Component {
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x));
+        
 
         // add the y Axis
         svg.append("g")
             .call(d3.axisLeft(y0));
-            svg.append("g")
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left-5)
+            .attr("x",0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Population in millions");
+        svg.append("g")
             .attr("transform", "translate(" + (width) + ",0)")
-            .call(d3.axisRight(y1)); 
+            .call(d3.axisRight(y1));
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", width + 20)
+            .attr("x",0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("# of facilities in thousands"); 
 
     }
 
@@ -158,6 +179,7 @@ class Statistics extends React.Component {
                     </tbody>
                     </Table>
                 </div>
+                <svg></svg>
             </div>
         
         )

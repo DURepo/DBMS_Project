@@ -40,8 +40,14 @@ router.get('/hospitalbystate',function(req,res){
 })
 
 router.get('/hospitalbydistrict', function(req,res){
-  let statename = req.query.statename;
+  var statename = req.query.statename;
+  console.log('in /hospbydist route');
   console.log(statename);
+  if (statename.includes("%20")) {
+    statename = statename.split('%20');
+    statename = statename[0]+ ' '+statename[1]
+  }
+  console.log(statename)
   nin_db.getDistrictWiseHospitalCount((err,result)=>{
     result = JSON.parse(result);
     if (err) throw err;

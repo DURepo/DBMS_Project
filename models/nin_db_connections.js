@@ -28,7 +28,9 @@ var con = mysql.createPool({
   con.query("SELECT State_Name as name , count(*) as count from cs540_ninHealthFacilities Group by State_Name", (err, result) => {
     if(err) throw err;
     res1 = JSON.stringify(result);
-    res2 = JSON.parse(res1);   
+    res2 = JSON.parse(res1);
+    console.log('res2 is ');
+    console.log(res2)   
     callback(err,res2);
   });
  }
@@ -63,7 +65,8 @@ var con = mysql.createPool({
  }
 
  function getDistrictWiseHospitalCount(callback, stateName){
-   var sql = "SELECT count(*), District_Name, State_Name FROM `cs540_ninHealthFacilities` where District_Name in (SELECT Name FROM `cs540_SDV` where DistrictCode!=0 and SubDistrictCode=0 and TownVillgCode=0) and State_Name=? group by District_Name";
+   console.log('in models statename is '+stateName);
+   var sql = "SELECT count(*) as hospcount, District_Name, State_Name FROM `cs540_ninHealthFacilities` where District_Name in (SELECT Name FROM `cs540_SDV` where DistrictCode!=0 and SubDistrictCode=0 and TownVillgCode=0) and State_Name=? group by District_Name";
    con.query(sql, [stateName], function(err, result){
      if(err) throw err;
      console.log(result);
